@@ -10,7 +10,7 @@ const viewer = require('../viewer');
 const Logger = require('../Logger');
 const utils = require('../utils');
 
-const SIZES = new Set(['stat', 'parsed', 'gzip']);
+const SIZES = new Set(['stat', 'parsed', 'gzip', 'brotli']);
 
 const program = commander
   .version(require('../../package.json').version)
@@ -74,6 +74,10 @@ const program = commander
     br(`Possible values: ${[...Logger.levels].join(', ')}`),
     Logger.defaultLevel
   )
+  .option(
+    '-b, --enable-brotli',
+    'Enable Brotli'
+  )
   .parse(process.argv);
 
 let [bundleStatsFile, bundleDir] = program.args;
@@ -86,7 +90,8 @@ let {
   defaultSizes,
   logLevel,
   open: openBrowser,
-  exclude: excludeAssets
+  exclude: excludeAssets,
+  enableBrotli
 } = program.opts();
 const logger = new Logger(logLevel);
 
@@ -128,6 +133,7 @@ if (mode === 'server') {
     reportTitle,
     bundleDir,
     excludeAssets,
+    enableBrotli,
     logger: new Logger(logLevel),
     analyzerUrl: utils.defaultAnalyzerUrl
   });
@@ -139,6 +145,7 @@ if (mode === 'server') {
     defaultSizes,
     bundleDir,
     excludeAssets,
+    enableBrotli,
     logger: new Logger(logLevel)
   });
 } else if (mode === 'json') {
@@ -146,6 +153,7 @@ if (mode === 'server') {
     reportFilename: resolve(reportFilename || 'report.json'),
     bundleDir,
     excludeAssets,
+    enableBrotli,
     logger: new Logger(logLevel)
   });
 }

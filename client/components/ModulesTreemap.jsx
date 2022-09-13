@@ -20,9 +20,9 @@ import ModulesList from './ModulesList';
 
 const SIZE_SWITCH_ITEMS = [
   {label: 'Stat', prop: 'statSize'},
-  {label: 'Parsed', prop: 'parsedSize'},
+  {label: 'Parsed', prop: 'parsedSize', isVisible: () => store.hasParsedSizes},
   {label: 'Gzipped', prop: 'gzipSize'},
-  {label: 'Brotli', prop: 'brotliSize'}
+  {label: 'Brotli', prop: 'brotliSize', isVisible: () => store.hasBrotliSizes}
 ];
 
 @observer
@@ -139,10 +139,12 @@ export default class ModulesTreemap extends Component {
   renderModuleSize(module, sizeType) {
     const sizeProp = `${sizeType}Size`;
     const size = module[sizeProp];
-    const sizeLabel = SIZE_SWITCH_ITEMS.find(item => item.prop === sizeProp).label;
+    const sizeSwitchItem = SIZE_SWITCH_ITEMS.find(item => item.prop === sizeProp);
+    const sizeLabel = sizeSwitchItem.label;
     const isActive = (store.activeSize === sizeProp);
+    const isVisible = !sizeSwitchItem.isVisible || sizeSwitchItem.isVisible();
 
-    return (typeof size === 'number') ?
+    return (typeof size === 'number') && isVisible ?
       <div className={isActive ? s.activeSize : ''}>
         {sizeLabel} size: <strong>{filesize(size)}</strong>
       </div>
@@ -163,7 +165,7 @@ export default class ModulesTreemap extends Component {
   };
 
   @computed get sizeSwitchItems() {
-    return store.hasParsedSizes ? SIZE_SWITCH_ITEMS : SIZE_SWITCH_ITEMS.slice(0, 1);
+    return SIZE_SWITCH_ITEMS.filter(item => !item.isVisible || item.isVisible()).map(item => ({label: item.label, prop: item.prop}));
   }
 
   @computed get activeSizeItem() {
@@ -318,6 +320,7 @@ export default class ModulesTreemap extends Component {
         {this.renderModuleSize(module, 'stat')}
         {!module.inaccurateSizes && this.renderModuleSize(module, 'parsed')}
         {!module.inaccurateSizes && this.renderModuleSize(module, 'gzip')}
+        {!module.inaccurateSizes && this.renderModuleSize(module, 'brotli')}
         {module.path &&
           <div>Path: <strong>{module.path}</strong></div>
         }

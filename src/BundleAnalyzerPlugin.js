@@ -21,6 +21,7 @@ class BundleAnalyzerPlugin {
       statsOptions: null,
       excludeAssets: null,
       logLevel: 'info',
+      enableBrotli: false,
       // deprecated
       startAnalyzer: true,
       analyzerUrl: utils.defaultAnalyzerUrl,
@@ -109,7 +110,8 @@ class BundleAnalyzerPlugin {
         logger: this.logger,
         defaultSizes: this.opts.defaultSizes,
         excludeAssets: this.opts.excludeAssets,
-        analyzerUrl: this.opts.analyzerUrl
+        analyzerUrl: this.opts.analyzerUrl,
+        enableBrotli: this.opts.enableBrotli
       });
     }
   }
@@ -119,7 +121,8 @@ class BundleAnalyzerPlugin {
       reportFilename: path.resolve(this.compiler.outputPath, this.opts.reportFilename || 'report.json'),
       bundleDir: this.getBundleDirFromCompiler(),
       logger: this.logger,
-      excludeAssets: this.opts.excludeAssets
+      excludeAssets: this.opts.excludeAssets,
+      enableBrotli: this.opts.enableBrotli
     });
   }
 
@@ -131,7 +134,8 @@ class BundleAnalyzerPlugin {
       bundleDir: this.getBundleDirFromCompiler(),
       logger: this.logger,
       defaultSizes: this.opts.defaultSizes,
-      excludeAssets: this.opts.excludeAssets
+      excludeAssets: this.opts.excludeAssets,
+      enableBrotli: this.opts.enableBrotli
     });
   }
 

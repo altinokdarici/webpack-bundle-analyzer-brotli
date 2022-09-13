@@ -2,6 +2,10 @@ export function isChunkParsed(chunk) {
   return (typeof chunk.parsedSize === 'number');
 }
 
+export function hasBrotliSize(chunk) {
+  return !!chunk.brotliSize;
+}
+
 export function walkModules(modules, cb) {
   for (const module of modules) {
     if (cb(module) === false) return false;

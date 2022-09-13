@@ -21,7 +21,8 @@ module.exports = {
 function getViewerData(bundleStats, bundleDir, opts) {
   const {
     logger = new Logger(),
-    excludeAssets = null
+    excludeAssets = null,
+    enableBrotli
   } = opts || {};
 
   const isAssetIncluded = createAssetsFilter(excludeAssets);
@@ -104,7 +105,9 @@ function getViewerData(bundleStats, bundleDir, opts) {
     if (assetSources) {
       asset.parsedSize = Buffer.byteLength(assetSources.src);
       asset.gzipSize = gzipSize.sync(assetSources.src);
-      asset.brotliSize = brotliSize.sync(assetSources.src);
+      if (enableBrotli) {
+        asset.brotliSize = brotliSize.sync(assetSources.src);
+      }
     }
 
     // Picking modules from current bundle script

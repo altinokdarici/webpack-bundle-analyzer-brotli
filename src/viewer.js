@@ -40,10 +40,11 @@ async function startServer(bundleStats, opts) {
     defaultSizes = 'parsed',
     excludeAssets = null,
     reportTitle,
-    analyzerUrl
+    analyzerUrl,
+    enableBrotli
   } = opts || {};
 
-  const analyzerOpts = {logger, excludeAssets};
+  const analyzerOpts = {logger, excludeAssets, enableBrotli};
 
   let chartData = getChartData(analyzerOpts, bundleStats, bundleDir);
 
@@ -134,10 +135,11 @@ async function generateReport(bundleStats, opts) {
     bundleDir = null,
     logger = new Logger(),
     defaultSizes = 'parsed',
-    excludeAssets = null
+    excludeAssets = null,
+    enableBrotli
   } = opts || {};
 
-  const chartData = getChartData({logger, excludeAssets}, bundleStats, bundleDir);
+  const chartData = getChartData({logger, excludeAssets, enableBrotli}, bundleStats, bundleDir);
 
   if (!chartData) return;
 
@@ -161,9 +163,9 @@ async function generateReport(bundleStats, opts) {
 }
 
 async function generateJSONReport(bundleStats, opts) {
-  const {reportFilename, bundleDir = null, logger = new Logger(), excludeAssets = null} = opts || {};
+  const {reportFilename, bundleDir = null, logger = new Logger(), excludeAssets = null, enableBrotli} = opts || {};
 
-  const chartData = getChartData({logger, excludeAssets}, bundleStats, bundleDir);
+  const chartData = getChartData({logger, excludeAssets, enableBrotli}, bundleStats, bundleDir);
 
   if (!chartData) return;
 

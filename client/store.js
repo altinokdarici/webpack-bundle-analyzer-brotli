@@ -1,5 +1,5 @@
 import {observable, computed} from 'mobx';
-import {isChunkParsed, walkModules} from './utils';
+import {hasBrotliSize, isChunkParsed, walkModules} from './utils';
 import localStorage from './localStorage';
 
 export class Store {
@@ -24,6 +24,10 @@ export class Store {
 
   @computed get hasParsedSizes() {
     return this.allChunks.some(isChunkParsed);
+  }
+
+  @computed get hasBrotliSizes() {
+    return this.allChunks.some(hasBrotliSize);
   }
 
   @computed get activeSize() {
