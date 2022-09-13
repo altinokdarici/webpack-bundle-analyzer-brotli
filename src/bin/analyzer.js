@@ -63,6 +63,10 @@ const program = commander
     "Don't open report in default browser automatically."
   )
   .option(
+    '-b, --enable-brotli',
+    'Enable Brotli'
+  )
+  .option(
     '-e, --exclude <regexp>',
     'Assets that should be excluded from the report.' +
     br('Can be specified multiple times.'),
@@ -73,10 +77,6 @@ const program = commander
     'Log level.' +
     br(`Possible values: ${[...Logger.levels].join(', ')}`),
     Logger.defaultLevel
-  )
-  .option(
-    '-b, --enable-brotli',
-    'Enable Brotli'
   )
   .parse(process.argv);
 

@@ -123,6 +123,7 @@ Directory containing all generated bundles.
   -s, --default-sizes <type>  Module sizes to show in treemap by default.
                               Possible values: stat, parsed, gzip, brotli (default: parsed)
   -O, --no-open               Don't open report in default browser automatically.
+  -b, --enable-brotli         Enable Brotli sizes.
   -e, --exclude <regexp>      Assets that should be excluded from the report.
                               Can be specified multiple times.
   -l, --log-level <level>     Log level.
